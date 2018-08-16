@@ -1,0 +1,23 @@
+{
+  "name": "snowflakey",
+  "displayName": "Snowflakey",
+  "main": "index.js",
+  "version": "0.0.1",
+  "description": "Discord snowflake lookup",
+  "engines": { "node": ">=8.0" },
+  "dependencies": { "inquirer": "^6.1.0" },
+  "devDependencies": { "eslint": "^5.3.0" },
+  "repository": {
+    "type": "git",
+    "url": "https://www.github.com/PassTheWessel/snowflakey.git"
+  },
+  "author": "Wessel Tip <discord@go2it.eu>",
+  "maintainers": [ "Wessel Tip <discord@go2it.eu>" ],
+  "publisher": "Wessel Tip <discord@go2it.eu>",
+  "license": "MIT",
+  "private": false,
+  "keywords": [ "snowflake", "discord" ],
+  "homepage": "https://passthewessel.github.io",
+  "scripts": { "start": "node index.js" },
+  "directories": { "deps": "deps/*" }
+}
