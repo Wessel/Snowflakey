@@ -1,6 +1,0 @@
-node_modules/
-.vscode/
-
-.eslintignore
-.eslintrc
-yarn.lock

@@ -1,33 +1,45 @@
-# Snowflakey - Discord snowflake lookup
-This is just some simple code to look up any snowflake on discord.
-## What is a snowflake?
-Snowflakes are strings from 14 to 16 characters long that determine
-Which user/message/guild is which. You can't get much data with
-just a snowflake, but you can get the creation date of the snowflake.
-## Getting a snowflake
-To get a user/message/guild's snowflake, go to the following path:
-Settings > Apperance > Developer Mode > Slider should be blurple.
-After you've enabled developer mode, go to a user/message/guild
-and right-click on it. You'll see an option called "Copy ID"
-## Using snowflakey
-It's very simple to use snowflakey, all you gotta do is run
-"yarn start" or "npm start" to start the script.
-#### Requirements
-* A device
-* NodeJS v8.0+
-* Yarn (NPM alternative, works faster)
-* Git (Not required, makes things easier)
-#### Installation
-Installing:
-```bash
-git clone https://www.github.com/PassTheWessel/snowflakey.git # Or clone from the site
-yarn # or npm i
-node index.js # Run snowflakey
+# snowflakey
+> A lightweight Node.js snowflake generator/lookup tool
+
+> [GitHub](https://www.github.com/PassTheWessel/Snowflakey) **|** [NPM](https://www.npmjs.com/package/snowflakey)
+
+## Installing
+```sh
+$ yarn add snowflakey # Install w/ Yarn (the superior package manager)
+$ npm i snowflakey # Install w/ NPM
 ```
-Example:
-```bash
-? Snowflake >> 107130754189766660
->> Creation date of snowflake "107130754189766660": 2015-10-23 16:59:22
+
+## Usage
+##### Code
+```js
+// require & generate the instance
+const Snowflake = require( './generator' );
+const snowflake = new Snowflake.generator({
+  processBits: 0,
+  workerBits: 8,
+  incrementBits: 14,
+  workerId: process.env.CLUSTER_ID || 31
+});
+
+// exports for global use
+exports.makeSnowflake   = ( date ) => { return snowflake._generate( date ); };
+exports.unmakeSnowflake = ( flake ) => { let decon = snowflake.deconstruct( flake ); return decon.timestamp.valueOf(); };
+
+// example
+const flake = this.makeSnowflake( Date.now() );
+console.log( flake );
+console.log( `Creation date: ${Snowflake.lookup( flake, 1420070400000 )}` );
+console.log( this.unmakeSnowflake( flake ) );
 ```
-## Credits
-N/A
+##### Result
+```sh
+$ node test.js
+534760094454759424
+Creation date: 2019-1-15 16:45:41
+1547567141880
+```
+
+### What is a snowflake?
+Snowflakes are strings that range from 14 to 19 characters long that can give every user it's unique idea. You can't get much data with just a snowflake, but you can get the creation date of the snowflake and identify every unique user with it.
+##### Refrence
+<img src="https://github.com/PassTheWessel/Snowflakey/tree/master/media/refrence.png">
