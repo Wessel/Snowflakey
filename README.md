@@ -41,5 +41,4 @@ Creation date: 2019-1-15 16:45:41
 
 ### What is a snowflake?
 Snowflakes are strings that range from 14 to 19 characters long that can give every user it's unique idea. You can't get much data with just a snowflake, but you can get the creation date of the snowflake and identify every unique user with it.
-##### Refrence
-<img src="https://github.com/PassTheWessel/Snowflakey/tree/master/media/refrence.png">
+![Refrence Image](media/refrence.png "This is a refrence to what snowflakes are")
