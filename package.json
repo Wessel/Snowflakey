@@ -5,12 +5,28 @@
   "author": "Wessel \"wesselgame\" T <discord@go2it.eu>",
   "main": "generator.js",
   "license": "MIT",
-  "files": [ "generator.js", "LICENSE" ],
-  "bugs": { "url": "https://www.github.com/PassTheWessel/Snowflakey/issues" },
+  "files": [
+    "generator.js",
+    "LICENSE",
+    "fake_node_modules/"
+  ],
+  "bugs": {
+    "url": "https://www.github.com/PassTheWessel/Snowflakey/issues"
+  },
   "homepage": "https://www.github.com/PassTheWessel/Snowflakey#readme",
   "repository": {
     "type": "git",
     "url": "https://www.github.com/PassTheWessel/Snowflakey"
   },
-  "keywords": [ "snowflake", "generator", "cli", "accounts", "lookup", "lightweight" ]
+  "keywords": [
+    "snowflake",
+    "generator",
+    "cli",
+    "accounts",
+    "lookup",
+    "lightweight"
+  ],
+  "dependencies": {
+    "snowflakey": "^0.0.1"
+  }
 }
