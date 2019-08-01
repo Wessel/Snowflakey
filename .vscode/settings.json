@@ -1,0 +1,89 @@
+/*
+  General vscode settings for all my projects
+  Made by Wessel "wesselgame" T <discord@go2it.eu> (https://github.com/PassTheWessel)
+
+  Extensions: rainglow, eslint, tslint, material icon theme, gitlens, fish-vscode, Docker,
+  Popping and Locking theme, Sass, stylelint, SVG viewer, Trailing spaces, Auto renaming tags
+
+  Color themes: Banner (rainglow), Hyrule (rainglow), Azure (rainglow), Github (rainglow),
+  Heroku (rainglow), Popping and Locking
+*/
+{
+  // Window
+  "window.zoomLevel": 0,
+  // Editor
+  "editor.fontSize": 13,
+  "editor.fontWeight": "200",
+  "editor.fontFamily": "'SFMono-Regular','Consolas','Liberation Mono','Menlo','Courier','monospace'",
+  "editor.lineHeight": 20,
+  "editor.fontLigatures": true,
+  "editor.cursorStyle": "line",
+  "editor.cursorWidth": 0,
+  "editor.cursorBlinking": "blink",
+  "editor.multiCursorModifier": "ctrlCmd",
+  "editor.minimap.enabled": true,
+  "editor.smoothScrolling": true,
+  "editor.minimap.renderCharacters": true,
+  "editor.tabSize": 2,
+  "editor.autoIndent": false,
+  "editor.insertSpaces": true,
+  "editor.tabCompletion": "on",
+  "editor.formatOnPaste": true,
+  "editor.detectIndentation": false,
+  "editor.wordWrap": "off",
+  "editor.matchBrackets": true,
+  "editor.renderWhitespace": "none",
+  "editor.autoClosingBrackets": "always",
+  "editor.tokenColorCustomizations": {
+    "types": "#C59F61",
+    "strings": "#F6EB90",
+    "numbers": "#C54121",
+    "keywords": "#C59F49",
+    "comments": "#6a737d",
+    "variables": "#C55F45",
+    "functions": "#C59F55"
+  },
+  //Workbench
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.colorTheme": "Banner (rainglow)",
+  "workbench.editor.showTabs": true,
+  "workbench.editor.tabSizing": "fit",
+  "workbench.sideBar.location": "left",
+  // Debug
+  "debug.toolBarLocation": "floating",
+  "debug.allowBreakpointsEverywhere": true,
+  // Console
+  "terminal.integrated.shell.windows": "C:\\Windows\\System32\\bash.exe", // C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe
+  // Files
+  "files.autoSave": "off",
+  "files.exclude": {
+    "**/.git": false,
+    "**/.svn": false,
+    "**/.hg": false,
+    "**/CVS": false,
+    "**/.DS_Store": false
+  },
+  // Breadcrumbs
+  "breadcrumbs.enabled": true,
+  "breadcrumbs.filePath": "last",
+  "breadcrumbs.symbolPath": "on",
+  "breadcrumbs.symbolSortOrder": "name",
+  // Git
+  "git.enableSmartCommit": true,
+  "git.ignoreLimitWarning": true,
+  // ESlint
+  "eslint.enable": true,
+  "eslint.packageManager": "yarn",
+  // Languages
+  "[yaml]": {
+    "editor.tabSize": 2,
+    "editor.autoIndent": false,
+    "editor.insertSpaces": true
+  },
+  "[markdown]": {
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": false
+  },
+  // Live share
+  "liveshare.featureSet": "insiders",
+}

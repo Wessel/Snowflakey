@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "lib": [ "es2015", "es2016", "es2017", "esnext" ],
+    "watch": true,
+    "types": [ "node" ],
+    "outDir": "./dist",
+    "target": "esnext",
+    "module": "commonjs",
+    "strict": false,
+    "allowJs": true,
+    "rootDirs": [ "./lib", "./tests" ],
+    "declaration": false,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [ "lib/**/*", "tests/**/*" ],
+  "exclude": [ "node_modules" ]
+}

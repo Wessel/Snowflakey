@@ -1,14 +1,15 @@
 {
   "name": "snowflakey",
-  "version": "0.0.2",
-  "description": "❄️ Snowflake generation/lookup",
+  "version": "0.1.1",
+  "description": "❄️ Fast and easy snowflake generation and lookup",
   "author": "Wessel \"wesselgame\" T <discord@go2it.eu>",
-  "main": "generator.js",
+  "main": "dist/lib/snowflakey.js",
+  "types": "index.d.ts",
   "license": "MIT",
   "files": [
-    "generator.js",
     "LICENSE",
-    "fake_node_modules/"
+    "dist/lib",
+    "index.d.ts"
   ],
   "bugs": {
     "url": "https://www.github.com/PassTheWessel/Snowflakey/issues"
@@ -21,9 +22,17 @@
   "keywords": [
     "snowflake",
     "generator",
-    "cli",
     "accounts",
     "lookup",
     "lightweight"
-  ]
+  ],
+  "scripts": {
+    "test": "cd ./dist/tests && node main.test.js",
+    "compile": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^12.6.8",
+    "@typescript-eslint/parser": "^1.13.0"
+  },
+  "dependencies": {}
 }

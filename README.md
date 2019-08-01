@@ -5,38 +5,58 @@
 
 ## Installing
 ```sh
-$ yarn add snowflakey # Install w/ Yarn (the superior package manager)
+$ yarn add snowflakey # Install w/ Yarn
 $ npm i snowflakey # Install w/ NPM
 ```
 
 ## Usage
-##### Code
+##### Using a worker
 ```js
-// require & generate the instance
-const Snowflake = require( './generator' );
-const snowflake = new Snowflake.generator({
-  processBits: 0,
+// Declare snowflakey
+const snowflakey = require('snowflakey');
+// Create the worker instance
+const Worker = new snowflakey.Worker({
+  name: 'starling',
+  epoch: 1420070400000,
+  workerId: process.env.CLUSTER_ID || 31,
+  processId: process.pid || undefined,
   workerBits: 8,
-  incrementBits: 14,
-  workerId: process.env.CLUSTER_ID || 31
+  processBits: 0,
+  incrementBits: 14
 });
 
-// exports for global use
-exports.makeSnowflake   = ( date ) => { return snowflake._generate( date ); };
-exports.unmakeSnowflake = ( flake ) => { let decon = snowflake.deconstruct( flake ); return decon.timestamp.valueOf(); };
+// Generate the snowflake
+const flake = Worker.generate();
+console.log(`Created snowflake: ${flake}`);
+console.log(`Creation date    : ${snowflakey.lookup(flake, worker.options.epoch)}`);
+console.log(`Deconstructed    : ${Worker.deconstruct(flake).timestamp.valueOf()}`);
+```
 
-// example
-const flake = this.makeSnowflake( Date.now() );
-console.log( flake );
-console.log( `Creation date: ${Snowflake.lookup( flake, 1420070400000 )}` );
-console.log( this.unmakeSnowflake( flake ) );
+##### Using a master
+```js
+// ... Worker code
+// Create the master instance and add the worker
+const Master = new snowflakey.Master();
+master.addWorker(Worker);
+// Listen to the events
+master.on('newSnowflake', (data) => {
+  console.log(`created snowflake: ${data.snowflake} by Worker ${data.worker.options.name || data.worker.options.workerId}`)
+  console.log(`Creation date    : ${Snowflake.lookup(flake, data.worker.options.epoch)}`);
+  data.worker.deconstruct(data.snowflake);
+});
+
+master.on('deconstructedFlake', (data) => {
+  console.log(`Deconstructed    : ${data.timestamp.valueOf()} by Worker ${data.worker.options.name || data.worker.options.workerId}`);
+});
+// Make the worker generate a snowflake
+worker.generate();
 ```
 ##### Result
 ```sh
 $ node test.js
-534760094454759424
-Creation date: 2019-1-15 16:45:41
-1547567141880
+Created snowflake: 534760094454759424
+Creation date    : 2019-1-15 16:45:41
+Deconstructed    : 1547567141880
 ```
 
 ### What is a snowflake?
