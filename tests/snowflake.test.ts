@@ -16,17 +16,16 @@ master.addWorkers(worker);
 
 // Using the worker directly
 const flake = worker.generate();
-const epoch = 1420070400000;
 
 console.log('----------[ Worker ]----------')
 console.log(`Created snowflake: ${flake}`);
-console.log(`Creation date    : ${Snowflake.lookup(flake, worker.options.epoch)}`);
+console.log(`Creation date    : ${Snowflake.lookup(flake, worker.options.epoch).toLocaleString()}`);
 console.log(`Deconstructed    : ${worker.deconstruct(flake).timestamp.valueOf()}`);
 // Using the master to get events
 console.log('----------[ Master ]----------')
 master.on('newSnowflake', (data) => {
-  console.log(`created snowflake: ${data.snowflake} by Worker ${data.worker.options.name || data.worker.options.workerId}`)
-  console.log(`Creation date    : ${Snowflake.lookup(flake, data.worker.options.epoch)}`);
+  console.log(`created snowflake: ${data.snowflake.toString()} by Worker ${data.worker.options.name || data.worker.options.workerId}`)
+  console.log(`Creation date    : ${Snowflake.lookup(flake, data.worker.options.epoch).toLocaleString()}`);
   data.worker.deconstruct(data.snowflake);
 });
 
@@ -36,5 +35,6 @@ master.on('deconstructedFlake', (data) => {
 
 worker.generate();
 
+console.log(`Workers before   : ${master.listWorkers().length}`);
 master.removeWorkers(worker.options.name);
-console.log(master.listWorkers())
+console.log(`Workers after    : ${master.listWorkers().length}`);

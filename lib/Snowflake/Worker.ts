@@ -1,37 +1,37 @@
 import big from './bigInt';
 import { EventEmitter } from 'events';
 import { sleep, getBits } from './util'
-import { Snowflake, SnowflakeConfig, SnowflakeMutable } from './types';
+import { Snowflake, SnowflakeConfig, SnowflakeMutable } from '../types';
 
 export default class SnowflakeWorker extends EventEmitter {
-  public options: SnowflakeConfig;
-  private _mutable: SnowflakeMutable;
-  private _maxIncrement: Number;
-  public workerId: number;
-  public processId: number;
+  public workerId:       number;
+  public processId:      number;
+  public options:        SnowflakeConfig;
+  private _mutable:      SnowflakeMutable;
+  private _maxIncrement: number;
 
   constructor(options: SnowflakeConfig) {
     super();
     // The default options for the generator
     this.setMaxListeners(100);
     this.options = {
-      name: undefined,
-      async: false,
-      epoch: null,
-      workerId: 0,
-      processId: 0,
-      stringify: true,
-      workerBits: 5,
-      processBits: 5,
+      name:          undefined,
+      async:         false,
+      stringify:     true,
+      workerId:      0,
+      processId:     0,
+      workerBits:    5,
+      processBits:   5,
       incrementBits: 12,
+      epoch:         null,
       ...options
     };
 
     // an object containing mutable (unfrozen) properties
     this._mutable = {
-      locks: [],
-      locked: false,
-      increment: big.zero.subtract(1),
+      locks:         [],
+      locked:        false,
+      increment:     big.zero.subtract(1),
       lastTimestamp: Date.now()
     };
 
@@ -53,7 +53,6 @@ export default class SnowflakeWorker extends EventEmitter {
 
     // freeze immutable objects to prevent tampering
     Object.freeze(this.options);
-    // Object.freeze(this);
   }
 
   get increment(): number {
@@ -79,27 +78,27 @@ export default class SnowflakeWorker extends EventEmitter {
     this.emit('newSnowflake', {
       worker: this,
       method: 'sync',
-      snowflake: flake.toString(),
+      snowflake: flake,
     });
 
     if (this.options.stringify) flake = flake.toString();
     return flake;
   }
 
-  _lock() {
+  private _lock(): Promise<boolean> | void {
     if (this._mutable.locked) return new Promise(res => this._mutable.locks.push(res));
     else this._mutable.locked = true;
   }
 
-  _unlock():  void {
+  private _unlock():  void {
     if (this._mutable.locks.length > 0) this._mutable.locks.shift()();
     else this._mutable.locked = false;
   }
 
-  async _generateAsync(): Promise<Snowflake> {
-    let lock = this._lock();
+  private async _generateAsync(): Promise<Snowflake> {
+    let lock: any = this._lock();
     if (lock) await lock;
-    let now = Date.now();
+    let now: number = Date.now();
     // check if increment should be reset
     if (this._mutable.lastTimestamp !== now) {
       // last timestamp didnt match, reset increment
@@ -123,18 +122,18 @@ export default class SnowflakeWorker extends EventEmitter {
     this._unlock();
     this.emit('newSnowflake', {
       worker: this,
-      method: 'async',
-      snowflake: flake.toString(),
+      method: 'sync',
+      snowflake: flake,
     });
 
     return flake;
   }
 
-  deconstruct(snowflake: Snowflake): object {
+  deconstruct(snowflake: Snowflake, epoch: number = this.options.epoch): object {
     // turn snowflake into a bigint
-    let flake = big(snowflake);
+    let flake: any = big(snowflake);
     // shift right, and add epoch to obtain timestamp
-    let timestamp = flake.shiftRight(22).add(this.options.epoch);
+    let timestamp = flake.shiftRight(22).add(epoch);
 
     //obtain workerId
     let wBitShift = this.options.incrementBits + this.options.processBits;

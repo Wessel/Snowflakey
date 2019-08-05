@@ -60,5 +60,46 @@ Deconstructed    : 1547567141880
 ```
 
 ### What is a snowflake?
-Snowflakes are strings that range from 14 to 19 characters long that can give every user it's unique idea. You can't get much data with just a snowflake, but you can get the creation date of the snowflake and identify every unique user with it.
-![Refrence Image](media/refrence.png "This is a refrence to what snowflakes are")
+Snowflakes are strings that range from 14 to 19 characters long that can give every user it's unique ID. You can't get much data with just a snowflake, but you can get the creation date of the snowflake and identify every unique user with it.
+```
+    #--[ Example on how snowflakes work using Discord's Epoch ]--#
+                        18
+                        107130754189766656
+                                | to binary
+57                              ↓    23     18      13
+[1011111001001101011011010011101000][00000][000011][000000000000]
+Number of MS since Discord's Epoch  internal internal incremented for
+(the first second of 2015)          worker   process  every generated ID
+              | to decimal          ID       ID       on that process
+              ↓
+         12770981096
+              | +1420070400000
+              ↓ Discord Epoch (unix timestamp in ms)
+        1432841381096
+              | Parse unix timestamp (ms)
+              ↓
+  2015-05-28T19:29:41.096Z UTC
+```
+
+### What is a token?
+Tokens are almost always used to access an API, tokens are (almost) always secret and only available to be viewed by the creator of the token. Snowflakey makes tokens that exist out of 3 parts: the user's ID, the current time and a Hmac hash. Below is an example on how it works
+
+```
+                        #--[ Example on how tokens work ]--#
+80                          56           44
+[MTA3MTMwNzU0MTg5NzY2NjU2].[MTg1MzkyNzk].[efdZism4cPVwMynra4491_c_05Hi5WuCptgWqlW5bFbY0]
+The user's ID              Current time  Hmac hash (digest: Base64) that Consists
+             |________ __________|       out of TTF + version + part[0] + part[1]
+                      | From base64
+                      ↓
+         [107130754189766656].[18539279]
+                  | Resolve       | * 1000 to
+                  ↓ the User      ↓ convert it to ms
+           Wesselgame#0498   18539279000
+                                  | +1546300800000
+                                  ↓ add Epoch (the first second of 2019)
+                            1564840079000
+                                  | Parse unix timestamp (ms)
+                                  ↓
+                     2019-08-03T13:47:59.000Z UTC
+```

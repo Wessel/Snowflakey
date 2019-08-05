@@ -1,7 +1,7 @@
 {
   "name": "snowflakey",
-  "version": "0.1.1",
-  "description": "❄️ Fast and easy snowflake generation and lookup",
+  "version": "0.2.0",
+  "description": "❄️ Fast and easy snowflake generation and lookup and token generation",
   "author": "Wessel \"wesselgame\" T <discord@go2it.eu>",
   "main": "dist/lib/snowflakey.js",
   "types": "index.d.ts",
@@ -27,12 +27,15 @@
     "lightweight"
   ],
   "scripts": {
-    "test": "cd ./dist/tests && node main.test.js",
+    "test:snowflake": "cd ./dist/tests && node snowflake.test.js",
+    "test:token": "cd ./dist/tests && node token.test.js",
     "compile": "tsc"
   },
   "devDependencies": {
     "@types/node": "^12.6.8",
-    "@typescript-eslint/parser": "^1.13.0"
+    "@typescript-eslint/parser": "^1.13.0",
+    "eslint": "^6.1.0",
+    "typescript": "^3.5.3"
   },
   "dependencies": {}
 }

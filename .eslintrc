@@ -33,6 +33,7 @@
       "templateStrings": true,
       "superInFunctions": true,
       "unicodeCodePointEscapes": true,
+      "experimentalObjectRestSpread": true,
       "objectLiteralShorthandMethods": true,
       "objectLiteralComputedProperties": true,
       "objectLiteralDuplicateProperties": true,
@@ -42,7 +43,7 @@
   "plugins": [],
   "rules": {
     "semi": "warn",
-    "indent": [ 0, 2 ],
+    "indent": [ "off", "error" ],
     "strict": "off",
     "eqeqeq": "error",
     "no-var": "warn",

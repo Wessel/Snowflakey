@@ -1,3 +1,10 @@
+export interface TokenConfig {
+  seed?:    string;
+  secret:   string;
+  epoch?:   number;
+  version?: number;
+}
+
 export interface SnowflakeConfig {
   name?: string;
   async?: boolean;

@@ -1,8 +1,8 @@
 import { EventEmitter } from 'events';
-import { SnowflakeWorker } from './types';
+import { SnowflakeWorker } from '../types';
 
 export default class SnowflakeMaster extends EventEmitter {
-  public workers: any[]
+  public workers: any[];
 
   constructor() {
     super();
@@ -11,9 +11,7 @@ export default class SnowflakeMaster extends EventEmitter {
   }
 
   addWorkers(...workers: SnowflakeWorker[]): void {
-    for (const worker of workers) {
-      this.workers.push(worker);
-    }
+    for (const worker of workers) this.workers.push(worker);
 
     return this.refresh();
   }

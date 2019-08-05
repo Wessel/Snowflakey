@@ -5,64 +5,90 @@ declare module 'snowflakey' {
   import { EventEmitter } from 'events';
 
   export type Snowflake = number;
-  export function lookup(flake: number, epoch: number);
+  export function lookup(flake: number, epoch: number): Date;
+
+  export class Token {
+    public secret: string;
+    public EPOCH: number;
+    public VERSION: number;
+    public tokenTime: number;
+    private _otp: any;
+
+    public constructor(options: TokenConfig);
+    public generate(ID: string): string;
+    public update(token: string, mfa: string, secret: string, counter: any): string | null
+    public validate(token: string, fetcher: any): boolean;
+
+    private _computeHmac(string: string): string;
+  }
 
   export class Master extends EventEmitter {
-    public workers: SnowflakeWorker[];
+    constructor();
+
+    public workers: Worker[];
     public refresh(): void;
-    public listWorkers(): SnowflakeWorker[];
-    public addWorkers(...workers: any[]): void;
+    public listWorkers(): Worker[];
+    public addWorkers(...workers: Worker[]): void;
     public removeWorkers(...workers: string[] | number[]): { removed: number };
+    public on(event: 'newSnowflake', listener: (data: NewSnowflake) => void): this;
+    public on(event: 'deconstructedFlake', listener: (data: DeconstructedSnowflake) => void): this;
   }
 
   export class Worker extends EventEmitter {
-    public options: SnowflakeConfig;
     private _mutable: SnowflakeMutable;
+    public options: SnowflakeConfig;
+
     constructor(options: SnowflakeConfig);
-    private _lock(): void;
-    private _unlock(): void;
+
     public generate(): Snowflake;
-    public deconstruct(flake: Snowflake): DeconstructedSnowflake;
+    public deconstruct(flake: Snowflake, epoch?: number): DeconstructedSnowflake;
+    public on(event: 'newSnowflake', listener: (data: NewSnowflake) => void): this;
+    public on(event: 'deconstructedFlake', listener: (data: DeconstructedSnowflake) => void): this;
+
+    private _lock(): Promise<any> | void;
+    private _unlock(): void;
     private _generate(): Snowflake;
     private _generateAsync(): Snowflake;
   }
 
-  export interface DeconstructedSnowflake {
-    workerId: number,
-    timestamp: number,
-    processId: number,
-    increment: number
+  export interface TokenConfig {
+    seed?:    string;
+    secret:   string;
+    epoch?:   number;
+    version?: number;
   }
+
+  export interface DeconstructedSnowflake {
+    method:    'sync' | 'async';
+    worker:    Worker;
+    workerId:  number;
+    timestamp: number;
+    processId: number;
+    increment: number;
+  }
+
+  export interface NewSnowflake {
+    method:    'sync' | 'async';
+    worker:    Worker;
+    snowflake: Snowflake;
+  }
+
   export interface SnowflakeConfig {
-    name?: string;
-    async?: boolean;
-    epoch: number;
-    workerId?: any,
-    processId?: number,
-    stringify?: boolean,
-    workerBits: number,
-    processBits: number,
+    name?:         string;
+    async?:        boolean;
+    stringify?:    boolean,
+    workerId?:     any,
+    epoch:         number;
+    processId?:    number,
+    workerBits:    number,
+    processBits:   number,
     incrementBits: number
   }
 
   export interface SnowflakeMutable {
-    locks: any;
-    locked: boolean;
-    increment: any;
+    locks:         [];
+    locked:        boolean;
+    increment:     number;
     lastTimestamp: number;
-  }
-
-
-  export interface SnowflakeWorker {
-    options: SnowflakeConfig;
-    workerId: number;
-    _mutable: SnowflakeMutable;
-    processId: number;
-    _maxIncrement: number;
-    _lock(): void;
-    _unlock(): void;
-    generate(): Snowflake;
-    _generate(): Snowflake;
-    _generateAsync(): Snowflake;
   }
 }
